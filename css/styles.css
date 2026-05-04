@@ -1,5 +1,5 @@
 /* ============================================================
-   Wald und Holz NRW – stylesheet
+   SCHIFFSTECHNIK – Navigation & Communication Systems – stylesheet
    ============================================================ */
 
 :root {
@@ -77,15 +77,17 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 }
 .hero__bg {
   position: absolute; inset: 0; z-index: -3;
-  background: url('../assets/maritime-services.jpeg') center/cover no-repeat;
+  background:
+    linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
+    url('../assets/maritime-services.jpeg') center/cover no-repeat;
 }
 .hero__vignette {
   position: absolute; inset: 0; z-index: -2;
   background: radial-gradient(ellipse at center, rgba(0,0,0,0) 30%, rgba(0,0,0,.7) 100%);
 }
-/* Frosted-glass panel with "MENSCH WALD!" knocked out of it (Figma 78:895).
+/* Frosted-glass panel with "MARITIME TRUSTED" knocked out of it.
    Uses backdrop-filter for the blur and an inline-SVG mask to cut the letters
-   so the forest bg shows through the letter shapes. */
+   so the maritime bg shows through the letter shapes. */
 .hero__panel {
   position: absolute;
   right: 0;
@@ -101,7 +103,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   /* Fallback mask used until the JS canvas mask is built (or if JS is off).
      The runtime canvas mask in js/main.js renders with the page's webfonts
      and overrides this variable. */
-  --hero-panel-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 1156' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='960' height='1156' fill='white'/%3E%3Ctext x='480' y='395' text-anchor='middle' font-family='Arial Black,Roboto,sans-serif' font-weight='900' font-size='220' fill='black'%3EMENSCH%3C/text%3E%3Ctext x='480' y='615' text-anchor='middle' font-family='Arial Black,Roboto,sans-serif' font-weight='900' font-size='180' fill='black'%3EALINE!!!!%3C/text%3E%3C/svg%3E");
+  --hero-panel-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 1156' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='960' height='1156' fill='white'/%3E%3Ctext x='480' y='395' text-anchor='middle' font-family='Arial Black,Roboto,sans-serif' font-weight='900' font-size='200' fill='black'%3EMARITIME%3C/text%3E%3Ctext x='480' y='615' text-anchor='middle' font-family='Arial Black,Roboto,sans-serif' font-weight='900' font-size='200' fill='black'%3ETRUSTED%3C/text%3E%3C/svg%3E");
   -webkit-mask: var(--hero-panel-mask) center / 100% 100% no-repeat;
   mask: var(--hero-panel-mask) center / 100% 100% no-repeat;
 }
@@ -143,7 +145,29 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 .main-nav a:hover { color: var(--green); }
 .main-nav a.active { color: var(--green); }
 
-.search-btn { color: var(--white); padding: 4px; display: inline-flex; flex: 0 0 auto; }
+.topbar-contact {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex: 0 0 auto;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--white);
+}
+.topbar-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--white);
+  white-space: nowrap;
+  transition: color .15s;
+}
+.topbar-contact a:hover { color: var(--green); }
+.topbar-contact em { color: var(--green); font-style: normal; font-weight: 600; margin-left: 2px; }
 
 .hero__gradient-bar {
   position: absolute;
@@ -198,32 +222,6 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   line-height: 1.4;
   margin: 0 0 28px;
 }
-.hero__signup {
-  display: flex;
-  gap: 0;
-  align-items: stretch;
-  width: 100%;
-  max-width: 600px;
-}
-.hero__signup input {
-  flex: 1;
-  padding: 14px 22px;
-  border: 0;
-  border-radius: 5px 0 0 5px;
-  background: rgba(118, 118, 118, 0.2);
-  color: var(--white);
-  font-size: 17px;
-  outline: none;
-  backdrop-filter: blur(25.4px);
-  -webkit-backdrop-filter: blur(25.4px);
-  box-shadow: 0 4px 50px rgba(0, 0, 0, 0.5);
-}
-.hero__signup input::placeholder { color: rgba(255,255,255,.85); }
-.hero__signup .btn {
-  border-radius: 0 4px 4px 0;
-  white-space: nowrap;
-}
-
 /* ============ STATS ============ */
 .stats {
   background: transparent;
@@ -458,17 +456,17 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 }
 .side-cta img { width: 22px; height: 22px; filter: brightness(0) invert(1); }
 
-/* ============ NEWS ============ */
-.news {
+/* ============ PARTNERS ============ */
+.partners {
   background: var(--light-grey);
   padding: 80px 0 72px;
 }
-.news__header {
+.partners__header {
   text-align: center;
   max-width: 760px;
-  margin: 0 auto 40px;
+  margin: 0 auto 48px;
 }
-.news__header h2 {
+.partners__header h2 {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 36px;
@@ -476,87 +474,54 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   color: var(--dark);
   margin: 0 0 8px;
 }
-.news__header p {
+.partners__header p {
   color: var(--dark);
   font-size: 16px;
   line-height: 1.5;
   margin: 0;
 }
-
-.news__row {
+.partners__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: auto 1fr 1fr 1fr auto;
+  grid-template-columns: repeat(6, 1fr);
   gap: 32px;
   align-items: center;
 }
-.news__nav {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.9);
-  color: var(--dark-green);
-  display: grid; place-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,.1);
-}
-.news__nav:hover { background: var(--white); }
-
-.news-card {
-  position: relative;
-  height: 436px;
+.partner-logo {
+  background: var(--white);
   border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,.15);
+  padding: 24px 20px;
+  display: grid;
+  place-items: center;
+  min-height: 110px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  transition: transform .15s, box-shadow .15s;
 }
-.news-card__img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
+.partner-logo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,177,190,.18);
 }
-.news-card__tag {
-  position: absolute;
-  top: 14px; right: 14px;
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  font-size: 12px;
-  color: var(--white);
-  text-transform: capitalize;
-  backdrop-filter: blur(8px);
-  z-index: 2;
+.partner-logo img {
+  max-width: 100%;
+  max-height: 64px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: .75;
+  transition: filter .2s, opacity .2s;
 }
-.news-card__tag--event { background: rgba(0,177,190,.55); }
-.news-card__tag--press { background: rgba(12,12,26,.55); }
-
-.news-card__overlay {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 171px;
-  background: rgba(12,12,26,.5);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 16px 24px;
-  color: var(--white);
+.partner-logo:hover img {
+  filter: grayscale(0);
+  opacity: 1;
 }
-.news-card__overlay h3 {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 1.4;
-  margin: 0 0 14px;
-  text-transform: capitalize;
+@media (max-width: 1100px) {
+  .partners__grid { grid-template-columns: repeat(3, 1fr); }
 }
-.news-card__more {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: 600;
-  font-size: 18px;
-  color: var(--green);
+@media (max-width: 600px) {
+  .partners__grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
 }
 
 /* ============ INFO CARDS ============ */
@@ -732,6 +697,8 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 @media (max-width: 1100px) {
   .topbar { padding: 24px 32px 0; gap: 14px; }
   .main-nav { gap: 16px; font-size: 16px; }
+  .topbar-contact { gap: 14px; }
+  .topbar-contact span { display: none; }
   .utility-nav { font-size: 12px; }
   .hero__gradient-bar { top: 80px; }
   .hero__content { right: 32px; left: 32px; bottom: 8%; width: auto; }
@@ -762,9 +729,5 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   .hero { min-height: 620px; }
   .hero__title { font-size: 28px; }
   .hero__subtitle { font-size: 15px; }
-  .hero__signup { flex-direction: column; gap: 8px; }
-  .hero__signup input { border-radius: 4px; }
-  .hero__signup .btn { border-radius: 4px; }
-  .news-card { height: 380px; }
   .info-cards { border-radius: 32px 32px 0 0; }
 }

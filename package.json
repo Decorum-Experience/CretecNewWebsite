@@ -1,7 +1,7 @@
 {
-  "name": "wald-und-holz-nrw",
+  "name": "cretec-new-website",
   "version": "1.0.0",
-  "description": "Wald und Holz NRW — Figma implementation",
+  "description": "CRETEC Schiffstechnik — new website",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
