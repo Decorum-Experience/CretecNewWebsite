@@ -12,33 +12,26 @@
 <body>
 
   <!-- ============ HERO ============ -->
-  <header class="hero">
+  <header class="hero" id="home">
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="hero__vignette" aria-hidden="true"></div>
-    <div class="hero__mensch-wald" aria-hidden="true">MENSCH<br>WALD!</div>
+    <div class="hero__panel" aria-hidden="true"></div>
 
     <div class="topbar">
+      <a href="#home" class="brand-link" aria-label="Startseite">
+        <img src="assets/creetc.jpg" alt="Creetc" class="brand-logo" />
+      </a>
       <nav class="main-nav" aria-label="Hauptnavigation">
-        <a href="#" class="active">HOME</a>
-        <a href="#">wald in nrw</a>
-        <a href="#">waldwirtschaft</a>
-        <a href="#">klimaschutz</a>
-        <a href="#">naturschutz</a>
-        <a href="#">wald erleben</a>
+        <a href="#home" class="active">HOME</a>
+        <a href="#about">wald in nrw</a>
+        <a href="#foerderung">waldwirtschaft</a>
+        <a href="#standorte">standorte</a>
+        <a href="#aktuelles">aktuelles</a>
+        <a href="#angebote">wald erleben</a>
       </nav>
-      <div class="utility-nav">
-        <a href="#">Termine</a>
-        <span class="sep">|</span>
-        <a href="#">Presse</a>
-        <span class="sep">|</span>
-        <a href="#">Publikationen</a>
-        <span class="sep">|</span>
-        <a href="#">Shop</a>
-        <button class="search-btn" aria-label="Suche">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </button>
-        <img src="assets/logo.png" alt="Wald und Holz NRW Logo" class="brand-logo" />
-      </div>
+      <button class="search-btn" aria-label="Suche">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
     </div>
 
     <div class="hero__gradient-bar" aria-hidden="true"></div>
@@ -60,7 +53,7 @@
   </header>
 
   <!-- ============ STATS ============ -->
-  <section class="stats">
+  <section class="stats" id="about">
     <div class="container stats__grid">
       <article class="stat-card">
         <div class="stat-card__icon" aria-hidden="true">
@@ -87,7 +80,7 @@
   </section>
 
   <!-- ============ FÖRDERUNG CTA ============ -->
-  <section class="foerderung">
+  <section class="foerderung" id="foerderung">
     <div class="container foerderung__inner">
       <div class="foerderung__text">
         <h2>Sie besitzen Waldflächen in NRW?</h2>
@@ -99,7 +92,7 @@
   </section>
 
   <!-- ============ MAP ============ -->
-  <section class="map-section">
+  <section class="map-section" id="standorte">
     <div class="map-section__bg" aria-hidden="true"></div>
     <div class="map-section__inner">
       <div class="map-section__map">
@@ -164,7 +157,7 @@
   </section>
 
   <!-- ============ NEWS / EVENTS ============ -->
-  <section class="news">
+  <section class="news" id="aktuelles">
     <div class="container">
       <header class="news__header">
         <h2>Aktuelle Meldungen &amp; Termine</h2>
@@ -216,7 +209,7 @@
   </section>
 
   <!-- ============ INFO CARDS ============ -->
-  <section class="info-cards">
+  <section class="info-cards" id="angebote">
     <div class="info-cards__bg" aria-hidden="true"></div>
     <div class="container info-cards__grid">
       <article class="info-card">

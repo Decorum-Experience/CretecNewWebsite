@@ -1,3 +1,56 @@
+// Hero panel cutout — build a canvas-based mask at runtime so the text uses
+// the page's fonts (SVG data-URI masks render outside the document font ctx
+// and would fall back to a generic sans-serif).
+function buildHeroPanelMask() {
+  const panel = document.querySelector('.hero__panel');
+  if (!panel) return;
+// mensch Aline!!!!
+  const line1 = 'MARITIME';
+  const line2 = 'TRUSTED';
+
+  const W = 960, H = 1156;
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // Opaque white rect = panel visible. destination-out text below punches
+  // transparent holes so the forest behind shows through the letters.
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.fillStyle = 'black';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+
+  // Auto-shrink so the longer line never overflows
+  const maxW = 880;
+  let fs = 220;
+  const fontAt = (px) => `900 ${px}px "Arial Black", "Roboto", Arial, sans-serif`;
+  ctx.font = fontAt(fs);
+  const longer = line1.length >= line2.length ? line1 : line2;
+  while (ctx.measureText(longer).width > maxW && fs > 60) {
+    fs -= 2;
+    ctx.font = fontAt(fs);
+  }
+
+  ctx.fillText(line1, W / 2, 400, maxW);
+  ctx.fillText(line2, W / 2, 620, maxW);
+
+  ctx.globalCompositeOperation = 'source-over';
+
+  const url = `url("${canvas.toDataURL()}")`;
+  panel.style.setProperty('--hero-panel-mask', url);
+}
+
+// Webfonts may load after first paint; rebuild once they're ready so the
+// cutout uses the real Inter/Roboto metrics rather than the fallback.
+buildHeroPanelMask();
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(buildHeroPanelMask);
+}
+
 // Tab switching for the locations card
 document.querySelectorAll('.tabs').forEach((tabsEl) => {
   const tabs = tabsEl.querySelectorAll('.tab');
