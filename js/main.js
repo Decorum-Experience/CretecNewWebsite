@@ -77,6 +77,23 @@ document.querySelectorAll('.hero__pager').forEach((pager) => {
   });
 });
 
+// Contact form — no backend yet, just validate and show a confirmation
+const contactForm = document.querySelector('.contact__form');
+if (contactForm) {
+  const status = contactForm.querySelector('.contact__status');
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    status.classList.remove('is-error');
+    if (!contactForm.checkValidity()) {
+      status.textContent = 'Bitte füllen Sie alle Felder aus.';
+      status.classList.add('is-error');
+      return;
+    }
+    status.textContent = 'Vielen Dank! Ihre Nachricht wurde erfasst.';
+    contactForm.reset();
+  });
+}
+
 // News carousel arrows — placeholder behavior
 const newsRow = document.querySelector('.news__row');
 if (newsRow) {
