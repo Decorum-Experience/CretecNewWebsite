@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(Find . -type f -name \"*.html\")"
+      "Bash(Find . -type f -name \"*.html\")",
+      "Bash(git -C \"c:\\\\dev\\\\Git\\\\decorum-consulting-newWebsite\" log --oneline -10)",
+      "Read(//c/dev/Git/decorum-consulting-newWebsite/**)",
+      "Bash(Get-ChildItem -Path \"c:\\\\dev\\\\Git\\\\decorum-consulting-newWebsite\\\\.github\\\\workflows\" -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object Name)",
+      "Bash(git -C \"c:\\\\dev\\\\Git\\\\decorum-consulting-newWebsite\" log --oneline -15)"
     ]
   }
 }
