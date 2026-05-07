@@ -1,0 +1,196 @@
+name: (PRD) Build and Publish Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+# Verhindert gleichzeitige Deployments — wenn ein neuer Push kommt
+# während der Workflow noch läuft, wird der alte abgebrochen.
+concurrency:
+  group: production-deploy
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    name: Build and Push to GHCR
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      # -------------------------------------------------------
+      # 1. Checkout source
+      # -------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -------------------------------------------------------
+      # 2. Set up Docker Buildx (enables BuildKit + layer cache)
+      # -------------------------------------------------------
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # -------------------------------------------------------
+      # 3. Log in to GitHub Container Registry
+      # -------------------------------------------------------
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # -------------------------------------------------------
+      # 4. Generate image tags and labels
+      #
+      # Push to main  →  :latest  +  :sha-<short>
+      # Push of v1.2.3 →  :1.2.3  :1.2  :1  :v1.2.3  :sha-<short>
+      # -------------------------------------------------------
+      - name: Extract metadata (tags and labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=ref,event=tag
+            type=sha,prefix=sha-,format=short
+
+      # -------------------------------------------------------
+      # 5. Build and push the Docker image
+      # -------------------------------------------------------
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+      # -------------------------------------------------------
+      # 6. Uptime Kuma Maintenance starten — kein Alarm während Deployment
+      #    Requires UPTIME_KUMA_API_KEY secret in GitHub repository
+      # -------------------------------------------------------
+      - name: Uptime Kuma Maintenance starten
+        run: |
+          if [ -z "$UPTIME_KUMA_API_KEY" ]; then
+            echo "UPTIME_KUMA_API_KEY is not configured — skipping."
+          else
+            RESPONSE=$(curl --show-error \
+                            --max-time 15 \
+                            -X POST \
+                            -H "Authorization: Bearer $UPTIME_KUMA_API_KEY" \
+                            -H "Content-Type: application/json" \
+                            -d '{"title":"GitHub Actions Deploy","strategy":"manual","active":true}' \
+                            "https://consulting-monitoring.decorum-cloud.com/api/maintenance")
+            echo "API Antwort: $RESPONSE"
+            MAINTENANCE_ID=$(echo "$RESPONSE" | grep -o '"id":[0-9]*' | head -1 | grep -o '[0-9]*' || true)
+            echo "MAINTENANCE_ID=$MAINTENANCE_ID" >> $GITHUB_ENV
+            echo "Maintenance gestartet mit ID: $MAINTENANCE_ID"
+          fi
+        env:
+          UPTIME_KUMA_API_KEY: ${{ secrets.UPTIME_KUMA_API_KEY }}
+
+      # -------------------------------------------------------
+      # 7. Trigger Dokploy autodeploy via Webhook
+      #    Requires DOKPLOY_WEBHOOK_PRD secret in GitHub repository:
+      #    GitHub → Settings → Secrets → Actions → DOKPLOY_WEBHOOK_PRD
+      # -------------------------------------------------------
+      - name: Trigger Dokploy autodeploy
+        run: |
+          if [ -z "$DOKPLOY_WEBHOOK_PRD" ]; then
+            echo "DOKPLOY_WEBHOOK_PRD is not configured — skipping autodeploy trigger."
+            echo "Add it under: GitHub → Settings → Secrets → Actions → DOKPLOY_WEBHOOK_PRD"
+          else
+            curl --fail \
+                 --silent \
+                 --show-error \
+                 --max-time 30 \
+                 --retry 3 \
+                 --retry-delay 5 \
+                 -X POST \
+                 "$DOKPLOY_WEBHOOK_PRD"
+            echo "Dokploy autodeploy triggered successfully."
+          fi
+        env:
+          DOKPLOY_WEBHOOK_PRD: ${{ secrets.DOKPLOY_WEBHOOK_PRD }}
+
+      # -------------------------------------------------------
+      # 8. Health Check — prüft ob die Website wirklich antwortet
+      # -------------------------------------------------------
+      - name: Health Check
+        run: |
+          echo "Warte 40 Sekunden damit Dokploy Zeit hat das Image zu starten..."
+          sleep 40
+          echo "Prüfe ob die Website antwortet..."
+          curl --fail \
+               --silent \
+               --show-error \
+               --max-time 15 \
+               --retry 5 \
+               --retry-delay 10 \
+               --retry-all-errors \
+               https://cretec-schiffstechnik.decorum-cloud.com
+          echo "Health Check bestanden — Website antwortet."
+
+      # -------------------------------------------------------
+      # 9. Uptime Kuma Maintenance beenden — Alarm wieder aktiv
+      # -------------------------------------------------------
+      - name: Uptime Kuma Maintenance beenden
+        if: always()
+        run: |
+          if [ -z "$UPTIME_KUMA_API_KEY" ] || [ -z "$MAINTENANCE_ID" ]; then
+            echo "Kein Maintenance-Fenster zum Beenden."
+          else
+            curl --silent \
+                 --max-time 15 \
+                 -X DELETE \
+                 -H "Authorization: Bearer $UPTIME_KUMA_API_KEY" \
+                 "https://consulting-monitoring.decorum-cloud.com/api/maintenance/$MAINTENANCE_ID"
+            echo "Maintenance beendet."
+          fi
+        env:
+          UPTIME_KUMA_API_KEY: ${{ secrets.UPTIME_KUMA_API_KEY }}
+          MAINTENANCE_ID: ${{ env.MAINTENANCE_ID }}
+
+      # -------------------------------------------------------
+      # 10. E-Mail bei Fehler — nur wenn ein vorheriger Schritt fehlschlug
+      #    Requires RESEND_API_KEY secret in GitHub repository
+      # -------------------------------------------------------
+      - name: E-Mail bei Fehler senden
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.resend.com
+          server_port: 465
+          secure: true
+          username: resend
+          password: ${{ secrets.RESEND_API_KEY }}
+          subject: "FEHLER: PRD Deployment fehlgeschlagen (${{ github.sha }})"
+          to: dzevdet.adanalic@decorum-consulting.com
+          from: pipeline@updates.decorum-cloud.com
+          body: |
+            Das Produktions-Deployment ist fehlgeschlagen.
+
+            Branch:   ${{ github.ref_name }}
+            Commit:   ${{ github.sha }}
+            Auslöser: ${{ github.actor }}
+
+            Details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
