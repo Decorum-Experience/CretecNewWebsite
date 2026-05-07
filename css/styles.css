@@ -100,7 +100,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   .hero__bg {
     background:
       linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
-      url('../assets/ship-bridge-navigation-systems.jpg') center/cover no-repeat;
+      url('../assets/ship-bridge-navigation-systems.webp') center/cover no-repeat;
   }
 }
 .hero__vignette {
@@ -665,6 +665,127 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-size: 18px;
   color: var(--green);
   margin-top: 4px;
+}
+
+/* ============ PRODUKT IM FOKUS – DIDI CHART ============ */
+.didi {
+  background: linear-gradient(180deg, var(--light-grey) 0%, #ffffff 100%);
+  padding: 96px 0 96px;
+}
+.didi__inner {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 64px;
+  align-items: center;
+  max-width: 1200px;
+}
+.didi__media {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--green-dark), var(--dark-green));
+  box-shadow: 0 18px 60px rgba(0, 122, 133, 0.25);
+}
+.didi__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.didi__copy { max-width: 540px; }
+.didi__eyebrow {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: rgba(0, 177, 190, 0.1);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+.didi__copy h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: clamp(28px, 2.6vw, 40px);
+  line-height: 1.18;
+  color: var(--dark);
+  margin: 0 0 18px;
+}
+.didi__lede {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--d-grey);
+  margin: 0 0 24px;
+}
+.didi__lede strong { color: var(--green-dark); font-weight: 700; }
+.didi__features {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.didi__features li {
+  position: relative;
+  padding-left: 32px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--dark);
+}
+.didi__features li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--green);
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='5 12 10 17 19 8'/%3E%3C/svg%3E");
+  background-size: 14px 14px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.didi__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--green-dark);
+  border: 1.5px solid var(--green);
+}
+.btn--ghost:hover {
+  background: var(--green);
+  color: var(--white);
+  filter: none;
+}
+.didi__partner {
+  font-size: 13px;
+  color: var(--grey);
+  margin: 0;
+}
+.didi__partner a {
+  color: var(--green-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.didi__partner a:hover { color: var(--green); }
+
+@media (max-width: 1100px) {
+  .didi { padding: 72px 0; }
+  .didi__inner { grid-template-columns: 1fr; gap: 40px; max-width: 720px; }
+  .didi__copy { max-width: 100%; }
+}
+@media (max-width: 640px) {
+  .didi { padding: 56px 0; }
+  .didi__copy h2 { font-size: 26px; }
+  .didi__lede { font-size: 16px; }
+  .didi__actions .btn { flex: 1 1 100%; }
 }
 
 /* ============ FOOTER ============ */

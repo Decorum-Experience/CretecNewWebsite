@@ -24,7 +24,7 @@
   <meta property="og:url" content="https://cretec-schiffstechnik.de/" />
   <meta property="og:title" content="CRETEC Schiffstechnik – Service für Navigation, GMDSS &amp; Funk" />
   <meta property="og:description" content="Über 20 Jahre Erfahrung an Bord: Wartung, Reparatur und Inbetriebnahme von Navigations-, Funk- und Sicherheitsausrüstung auf Handelsschiffen, Yachten und Offshore-Anlagen." />
-  <meta property="og:image" content="https://cretec-schiffstechnik.de/assets/ship-bridge-navigation-systems.jpg" />
+  <meta property="og:image" content="https://cretec-schiffstechnik.de/assets/ship-bridge-navigation-systems.webp" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Schiffsbrücke mit Radar- und Navigationssystemen – CRETEC Schiffstechnik" />
@@ -33,7 +33,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="CRETEC Schiffstechnik – Service für Navigation &amp; GMDSS" />
   <meta name="twitter:description" content="Herstellerneutrale Wartung, Reparatur und Inbetriebnahme von Schiffselektronik. 24/7 Notfalleinsätze in deutschen Häfen." />
-  <meta name="twitter:image" content="https://cretec-schiffstechnik.de/assets/ship-bridge-navigation-systems.jpg" />
+  <meta name="twitter:image" content="https://cretec-schiffstechnik.de/assets/ship-bridge-navigation-systems.webp" />
 
   <!-- Icons & manifest -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -44,7 +44,7 @@
   <!-- Performance: preconnect + non-blocking fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="image" href="assets/ship-bridge-navigation-systems.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/ship-bridge-navigation-systems.webp" fetchpriority="high" />
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700;800&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700;800&display=swap" /></noscript>
@@ -64,7 +64,7 @@
         "url": "https://cretec-schiffstechnik.de/",
         "telephone": "+49-2832-9777388",
         "email": "service@cretec-schiffstechnik.de",
-        "image": "https://cretec-schiffstechnik.de/assets/ship-bridge-navigation-systems.jpg",
+        "image": "https://cretec-schiffstechnik.de/assets/ship-bridge-navigation-systems.webp",
         "logo": "https://cretec-schiffstechnik.de/assets/cretec-schiffstechnik-logo.jpg",
         "priceRange": "€€",
         "currenciesAccepted": "EUR",
@@ -121,6 +121,30 @@
         "name": "CRETEC Schiffstechnik",
         "publisher": { "@id": "https://cretec-schiffstechnik.de/#business" },
         "inLanguage": "de-DE"
+      },
+      {
+        "@type": "Product",
+        "@id": "https://cretec-schiffstechnik.de/#didi-chart",
+        "name": "DIDI Chart",
+        "description": "Vollautomatisierte ENC-Update-Lösung für ECDIS-Systeme. Verschlüsselte Auslieferung von UKHO AVCS-, PRIMAR- und C-MAP-Updates über Zero-Trust-Architektur und air-gapped USB-Storage.",
+        "category": "Maritime Software / ECDIS Chart Updates",
+        "image": "https://cretec-schiffstechnik.de/assets/didi-chart-ecdis-updates.webp",
+        "url": "https://decorum-maritime.com/enc-updates-nautical-automatically/",
+        "brand": {
+          "@type": "Brand",
+          "name": "DIDI"
+        },
+        "manufacturer": {
+          "@type": "Organization",
+          "name": "Decorum Maritime GmbH",
+          "url": "https://decorum-maritime.com/"
+        },
+        "offers": {
+          "@type": "Offer",
+          "availability": "https://schema.org/InStock",
+          "seller": { "@id": "https://cretec-schiffstechnik.de/#business" },
+          "url": "https://decorum-maritime.com/enc-updates-nautical-automatically/"
+        }
       }
     ]
   }
@@ -130,8 +154,9 @@
 
   <!-- ============ HERO ============ -->
   <header class="hero" id="home">
-    <video class="hero__video" autoplay muted loop playsinline preload="auto"
-           poster="assets/ship-bridge-navigation-systems.jpg" aria-hidden="true">
+    <video class="hero__video" autoplay muted loop playsinline preload="metadata"
+           poster="assets/ship-bridge-navigation-systems.webp" aria-hidden="true">
+      <source src="assets/cretec-maritime-services.webm" type="video/webm" />
       <source src="assets/cretec-maritime-services.mp4" type="video/mp4" />
     </video>
     <div class="hero__bg" aria-hidden="true"></div>
@@ -294,6 +319,45 @@
       </div>
     </section>
 
+    <!-- ============ PRODUKT IM FOKUS: DIDI CHART ============ -->
+    <section class="didi" id="didi" aria-labelledby="didi-heading">
+      <div class="container didi__inner">
+        <div class="didi__media">
+          <img src="assets/didi-chart-ecdis-updates.webp"
+               alt="DIDI Chart – automatisierte ENC-Updates für ECDIS-Systeme"
+               loading="lazy" width="1600" height="1000" />
+        </div>
+        <div class="didi__copy">
+          <span class="didi__eyebrow">Produkt im Fokus</span>
+          <h2 id="didi-heading">Schluss mit USB-Sticks an Bord.</h2>
+          <p class="didi__lede">
+            Als Service Engineer installiere und betreue ich <strong>DIDI Chart</strong> von
+            Decorum Maritime – die voll-automatisierte ENC-Update-Lösung für Ihr ECDIS.
+            Verschlüsselte Auslieferung der UKHO-, PRIMAR- und C-MAP-Updates, ohne dass
+            Brücke oder Crew aktiv werden müssen.
+          </p>
+          <ul class="didi__features">
+            <li>Vollautomatische ENC-Updates (UKHO AVCS, PRIMAR, C-MAP)</li>
+            <li>Zero-Trust-Architektur, TLS 1.3, Hash-Verifizierung</li>
+            <li>Air-gapped Auslieferung über isolierten USB-Speicher</li>
+            <li>Funktioniert mit jedem ECDIS – herstellerneutral</li>
+            <li>Flotten-Status in Echtzeit aus dem Cockpit der Reederei</li>
+          </ul>
+          <div class="didi__actions">
+            <a class="btn btn--primary"
+               href="https://outlook.office.com/book/DIDIMRV@decorum-consulting.com/?ismsaljsauthenabled=true"
+               target="_blank" rel="noopener">Demo anfragen</a>
+            <a class="btn btn--ghost"
+               href="https://decorum-maritime.com/enc-updates-nautical-automatically/"
+               target="_blank" rel="noopener">Mehr erfahren →</a>
+          </div>
+          <p class="didi__partner">
+            Ein Produkt der <a href="https://decorum-maritime.com/" target="_blank" rel="noopener">Decorum Maritime GmbH</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ PARTNERS ============ -->
     <section class="partners" id="aktuelles" aria-labelledby="partners-heading">
       <div class="container">
@@ -307,7 +371,7 @@
           <li class="partner-logo"><img src="assets/partners/jrc.jpg" alt="JRC – Japan Radio Co." loading="lazy" width="160" height="64" /></li>
           <li class="partner-logo"><img src="assets/partners/sailor.png" alt="Sailor / Cobham SATCOM" loading="lazy" width="160" height="64" /></li>
           <li class="partner-logo"><img src="assets/partners/simrad.jpg" alt="Simrad – Navigationssysteme" loading="lazy" width="160" height="64" /></li>
-          <li class="partner-logo"><img src="assets/partners/cmap.jpg" alt="C-MAP – Marine Charts" loading="lazy" width="160" height="64" /></li>
+          <li class="partner-logo"><img src="assets/partners/cmap.webp" alt="C-MAP – Marine Charts" loading="lazy" width="160" height="64" /></li>
           <li class="partner-logo"><img src="assets/partners/maris1602497269.jpg" alt="MARIS – ECDIS Lösungen" loading="lazy" width="160" height="64" /></li>
         </ul>
       </div>
@@ -318,7 +382,7 @@
       <div class="map-section__bg" aria-hidden="true"></div>
       <div class="map-section__inner">
         <div class="map-section__map">
-          <img src="assets/service-ports-germany-map.png" alt="Karte mit CRETEC Service-Häfen entlang der deutschen Nord- und Ostseeküste" loading="lazy" width="800" height="600" />
+          <img src="assets/service-ports-germany-map.webp" alt="Karte mit CRETEC Service-Häfen entlang der deutschen Nord- und Ostseeküste" loading="lazy" width="800" height="600" />
         </div>
         <aside class="locations-card" aria-label="Service-Standorte">
           <header class="locations-card__header">
@@ -388,7 +452,7 @@
 
         <div class="contact__layout">
           <aside class="contact__person">
-            <img src="assets/marian-paul-service-engineer.jpg" alt="Marian Paul – Service Engineer für Navigation und Communication Systems bei CRETEC Schiffstechnik" class="contact__portrait" width="180" height="180" loading="lazy" />
+            <img src="assets/marian-paul-service-engineer.webp" alt="Marian Paul – Service Engineer für Navigation und Communication Systems bei CRETEC Schiffstechnik" class="contact__portrait" width="180" height="180" loading="lazy" />
             <h3 class="contact__name">Marian Paul</h3>
             <p class="contact__role">Service Engineer – Navigation &amp; Communication Systems</p>
             <ul class="contact__details">
