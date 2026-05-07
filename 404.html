@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 – Seite nicht gefunden | CRETEC Schiffstechnik</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700;800&display=swap" /></noscript>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    .error-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px;
+      text-align: center;
+      background: var(--dark-green, #0C0C1A);
+      color: #fff;
+    }
+
+    .error-code {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(6rem, 18vw, 10rem);
+      font-weight: 800;
+      line-height: 1;
+      color: var(--green, #00B1BE);
+      letter-spacing: -4px;
+      margin-bottom: 8px;
+      text-shadow: 0 0 80px rgba(0, 177, 190, 0.35);
+    }
+
+    .error-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dark-green, #0C0C1A);
+      background: var(--green, #00B1BE);
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 28px;
+    }
+
+    .error-title {
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .error-sub {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 520px;
+    }
+
+    .nmea-trace {
+      background: rgba(0, 177, 190, 0.04);
+      border: 1px solid rgba(0, 177, 190, 0.2);
+      border-radius: 8px;
+      padding: 24px 28px;
+      text-align: left;
+      margin-bottom: 40px;
+      max-width: 560px;
+      width: 100%;
+      position: relative;
+    }
+
+    .nmea-trace-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .trace-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .trace-dot-red   { background: #ff5f57; }
+    .trace-dot-amber { background: #febc2e; }
+    .trace-dot-green { background: #28c840; }
+
+    .trace-title {
+      font-family: monospace;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.4);
+      margin-left: 4px;
+    }
+
+    .trace-line {
+      font-family: monospace;
+      font-size: 0.8rem;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.55);
+      display: flex;
+      gap: 12px;
+    }
+
+    .trace-line .prompt { color: var(--green, #00B1BE); flex-shrink: 0; }
+    .trace-line .ok     { color: #28c840; }
+    .trace-line .warn   { color: #febc2e; }
+    .trace-line .err    { color: #ff5f57; }
+    .trace-line .dim    { color: rgba(255,255,255,0.3); }
+    .trace-line .hi     { color: var(--green, #00B1BE); }
+
+    .trace-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--green, #00B1BE);
+      vertical-align: text-bottom;
+      animation: blink 1.1s step-end infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    .error-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .error-actions .btn--secondary {
+      background: transparent;
+      border: 1px solid rgba(0, 177, 190, 0.5);
+      color: var(--green, #00B1BE);
+      padding: 12px 28px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: border-color .2s, color .2s;
+    }
+
+    .error-actions .btn--secondary:hover {
+      border-color: var(--green, #00B1BE);
+      color: #fff;
+    }
+
+    .error-topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      background: rgba(12, 12, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      z-index: 100;
+    }
+
+    .error-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .error-brand img { border-radius: 6px; }
+
+    .error-brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .error-brand-main { font-weight: 800; font-size: 1rem; color: #fff; letter-spacing: .06em; }
+    .error-brand-sub  { font-size: 0.7rem; color: rgba(255,255,255,0.5); letter-spacing: .1em; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+
+  <div class="error-topbar">
+    <a href="/" class="error-brand">
+      <img src="/assets/cretec-schiffstechnik-logo.jpg" alt="CRETEC Schiffstechnik Logo" width="40" height="40" />
+      <span class="error-brand-text">
+        <span class="error-brand-main">CRETEC</span>
+        <span class="error-brand-sub">Schiffstechnik</span>
+      </span>
+    </a>
+  </div>
+
+  <main class="error-page">
+    <div class="error-code">404</div>
+    <div class="error-badge">Position nicht gefunden</div>
+
+    <h1 class="error-title">Diese Seite ist nicht in den Seekarten.</h1>
+    <p class="error-sub">
+      Das ECDIS hat keine Karte für diese Route. Entweder wurde die Seite
+      verschoben, gelöscht oder der Kurs war falsch.
+    </p>
+
+    <div class="nmea-trace">
+      <div class="nmea-trace-header">
+        <span class="trace-dot trace-dot-red"></span>
+        <span class="trace-dot trace-dot-amber"></span>
+        <span class="trace-dot trace-dot-green"></span>
+        <span class="trace-title">ECDIS / nav-system.log — NMEA 0183</span>
+      </div>
+
+      <div class="trace-line"><span class="prompt">&gt;</span><span>Starte Routensuche…</span></div>
+      <div class="trace-line"><span class="prompt">&gt;</span><span class="ok">✓</span><span>GPS-Signal: <span class="hi">FIX 3D</span> — <span class="dim">51.5827°N 6.2466°E</span></span></div>
+      <div class="trace-line"><span class="prompt">&gt;</span><span class="ok">✓</span><span>AIS-Transponder aktiv</span></div>
+      <div class="trace-line"><span class="prompt">&gt;</span><span class="warn">⚠</span><span>Zielseite: <span class="hi">UNBEKANNTES OBJEKT</span></span></div>
+      <div class="trace-line"><span class="prompt">&gt;</span><span class="err">✗</span><span class="err">FEHLER: Karte nicht geladen — HTTP 404</span></div>
+      <div class="trace-line"><span class="prompt">&gt;</span><span class="dim">Empfehlung: Kurs auf Startseite setzen</span></div>
+      <div class="trace-line"><span class="prompt">&gt;</span><span class="trace-cursor"></span></div>
+    </div>
+
+    <div class="error-actions">
+      <a href="/" class="btn btn--primary">Zurück zur Startseite</a>
+      <a href="/#kontakt" class="btn--secondary">Kontakt aufnehmen</a>
+    </div>
+  </main>
+
+</body>
+</html>
