@@ -66,17 +66,6 @@ document.querySelectorAll('.tabs').forEach((tabsEl) => {
   });
 });
 
-// Hero pager dots (visual only — no actual slide change wired up)
-document.querySelectorAll('.hero__pager').forEach((pager) => {
-  const dots = pager.querySelectorAll('.pager-dot');
-  dots.forEach((dot) => {
-    dot.addEventListener('click', () => {
-      dots.forEach((d) => d.classList.remove('is-active'));
-      dot.classList.add('is-active');
-    });
-  });
-});
-
 // Contact form — no backend yet, just validate and show a confirmation
 const contactForm = document.querySelector('.contact__form');
 if (contactForm) {

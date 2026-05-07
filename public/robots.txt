@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /assets/cretec-maritime-services.mp4
+
+Sitemap: https://cretec-schiffstechnik.de/sitemap.xml

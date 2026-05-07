@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://cretec-schiffstechnik.de/</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://cretec-schiffstechnik.de/assets/ship-bridge-navigation-systems.jpg</image:loc>
+      <image:title>Schiffsbrücke mit Radar- und Navigationssystemen – CRETEC Schiffstechnik</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cretec-schiffstechnik.de/assets/marian-paul-service-engineer.jpg</image:loc>
+      <image:title>Marian Paul – Service Engineer für Navigation und Communication Systems</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://cretec-schiffstechnik.de/assets/service-ports-germany-map.png</image:loc>
+      <image:title>Service-Häfen entlang der deutschen Nord- und Ostseeküste</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://cretec-schiffstechnik.de/impressum.html</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://cretec-schiffstechnik.de/datenschutz.html</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>
