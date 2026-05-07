@@ -4,7 +4,6 @@
 function buildHeroPanelMask() {
   const panel = document.querySelector('.hero__panel');
   if (!panel) return;
-// mensch Aline!!!!
   const line1 = 'MARITIME';
   const line2 = 'TRUSTED';
 
