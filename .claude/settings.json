@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Find . -type f -name \"*.html\")"
+    ]
+  }
+}
