@@ -1,0 +1,195 @@
+# Anzeigename des Workflows in GitHub Actions.
+# So heißt der Workflow später im Menü "Actions".
+name: (DEV) Build and Publish Docker Image
+
+# "on" definiert, wodurch der Workflow gestartet wird.
+on:
+  # Erster Auslöser: automatisch bei einem Push.
+  push:
+    # Aber nicht bei jedem Push auf jeden Branch,
+    # sondern nur bei Pushes auf den Branch "develop".
+    branches:
+      - develop
+
+  # Zweiter Auslöser: manueller Start per Button in GitHub Actions.
+  # Das ist genau der "Knopf", von dem dein Entwickler gesprochen hat.
+  workflow_dispatch:
+    # Optionale Eingaben, die beim manuellen Start im GitHub-Menü erscheinen.
+    inputs:
+      # Name des Eingabefeldes.
+      input_build:
+        # Typ des Eingabefeldes: Zeichenkette/Text.
+        type: string
+
+        # Beschreibung, die im GitHub-Menü beim manuellen Start angezeigt wird.
+        description: "Custom Tag"
+
+        # false = dieses Feld ist freiwillig, also nicht zwingend auszufüllen.
+        required: false
+
+# "env" definiert Umgebungsvariablen für den gesamten Workflow.
+# Umgebungsvariablen sind wiederverwendbare Werte, damit man Dinge nicht überall neu eintippen muss.
+env:
+  # Name der Ziel-Registry.
+  # GHCR = GitHub Container Registry (Container-Registry von GitHub zum Speichern von Docker-Images).
+  REGISTRY: ghcr.io
+
+  # Name des Images.
+  # github.repository ergibt automatisch "organisation/repository", also z. B. decorum-experience/cretecnewwebsite.
+  IMAGE_NAME: ${{ github.repository }}
+
+# "jobs" enthält die eigentlichen Arbeitsaufträge.
+jobs:
+  # Interner Name des Jobs. Dieser Name ist frei wählbar.
+  build-and-push:
+    # Anzeigename dieses Jobs in GitHub Actions.
+    name: Build and Push DEV Image to GHCR
+
+    # Auf welchem Runner der Job laufen soll.
+    # Runner = die Maschine/virtuelle Umgebung, auf der GitHub den Workflow ausführt.
+    # ubuntu-latest = aktuelle Ubuntu-Linux-Umgebung von GitHub.
+    runs-on: ubuntu-latest
+
+    # Rechte, die der Workflow bekommt.
+    # Das ist wichtig, damit GitHub nicht mehr darf als nötig.
+    permissions:
+      # Darf den Repository-Inhalt lesen.
+      contents: read
+
+      # Darf Pakete/Container-Images in die Registry schreiben.
+      packages: write
+
+    # "steps" sind die einzelnen Arbeitsschritte des Jobs.
+    steps:
+      # Erster Schritt: Repository-Inhalt in den Runner holen.
+      - name: Checkout repository
+
+        # Diese fertige GitHub-Action checkt den Quellcode aus.
+        # actions/checkout = Standard-Aktion zum Herunterladen des Repository-Inhalts in den Workflow-Runner.
+        uses: actions/checkout@v4
+
+      # Zweiter Schritt: Docker Buildx einrichten.
+      - name: Set up Docker Buildx
+
+        # docker/setup-buildx-action richtet Docker Buildx ein.
+        # Docker Buildx = erweiterter Docker-Build-Mechanismus für moderne Builds, Caching und Multi-Plattform-Builds.
+        uses: docker/setup-buildx-action@v3
+
+      # Dritter Schritt: Anmeldung an der Container-Registry GHCR.
+      - name: Log in to GitHub Container Registry
+
+        # docker/login-action führt den Login an einer Container-Registry durch.
+        uses: docker/login-action@v3
+
+        # "with" übergibt Parameter an diese Action.
+        with:
+          # Registry-Adresse, also wohin eingeloggt werden soll.
+          registry: ${{ env.REGISTRY }}
+
+          # Benutzername für den Login.
+          # github.actor = der Benutzer oder Prozess, der den Workflow ausgelöst hat.
+          username: ${{ github.actor }}
+
+          # Passwort/Token für den Login.
+          # secrets.GITHUB_TOKEN = von GitHub automatisch bereitgestelltes Zugriffstoken für den Workflow.
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Vierter Schritt: Tags und Labels für das Docker-Image erzeugen.
+      - name: Extract metadata (tags and labels)
+
+        # Interne Kennung dieses Schritts.
+        # Dadurch kann man später auf seine Ausgaben zugreifen.
+        id: meta
+
+        # docker/metadata-action erzeugt automatisch Tags und Labels für Docker-Images.
+        uses: docker/metadata-action@v5
+
+        with:
+          # Vollständiger Bildname: Registry + Repository-Name.
+          # Beispiel: ghcr.io/decorum-experience/cretecnewwebsite
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+          # Liste der Tags, die dem Image gegeben werden sollen.
+          tags: |
+            # Fester Tag "dev".
+            # Dadurch gibt es immer ein Image mit dem Tag "dev".
+            type=raw,value=dev
+
+            # Zusätzlicher Tag auf Basis des Commit-Hashs.
+            # SHA = Secure Hash Algorithm (Hash-Verfahren zur eindeutigen Kennzeichnung von Daten; hier zur Kennzeichnung eines Commits).
+            # Beispiel: dev-sha-a1b2c3d
+            type=sha,prefix=dev-sha-,format=short
+
+            # Optionaler zusätzlicher Tag, aber nur bei manuellem Start
+            # und nur wenn tatsächlich etwas in "input_build" eingegeben wurde.
+            # Beispiel: wenn du im Button-Menü "test-2" eingibst, bekommt das Image zusätzlich den Tag "test-2".
+            type=raw,value=${{ github.event.inputs.input_build }},enable=${{ github.event_name == 'workflow_dispatch' && github.event.inputs.input_build != '' }}
+
+      # Fünfter Schritt: Docker-Image bauen und in GHCR hochladen.
+      - name: Build and push Docker image
+
+        # Interne Kennung des Schritts.
+        id: push
+
+        # docker/build-push-action baut das Docker-Image und pusht es in eine Registry.
+        uses: docker/build-push-action@v6
+
+        with:
+          # Build-Kontext.
+          # "." bedeutet: aktuelles Verzeichnis des Repositorys ist die Basis für den Build.
+          context: .
+
+          # true = das Image nicht nur lokal bauen, sondern auch wirklich hochladen.
+          push: true
+
+          # Verwende die Tags, die im meta-Schritt erzeugt wurden.
+          tags: ${{ steps.meta.outputs.tags }}
+
+          # Verwende die Labels, die im meta-Schritt erzeugt wurden.
+          labels: ${{ steps.meta.outputs.labels }}
+
+          # Vorhandenen Cache aus GitHub Actions verwenden.
+          # Cache = Zwischenspeicher, damit spätere Builds schneller werden.
+          cache-from: type=gha
+
+          # Neuen Cache wieder in GitHub Actions zurückschreiben.
+          cache-to: type=gha,mode=max
+
+          # Zielplattform/Architektur des Images.
+          # linux/amd64 = Linux für 64-Bit-x86-Systeme, also Standard-Serverarchitektur.
+          platforms: linux/amd64
+
+      # Sechster Schritt: Nach erfolgreichem Build Dokploy informieren,
+      # damit die DEV-Anwendung neu ausgerollt wird.
+      - name: Trigger Dokploy DEV autodeploy
+
+        # "run" bedeutet: hier wird ein Shell-Skript ausgeführt.
+        run: |
+          # Prüfen, ob die Webhook-URL konfiguriert ist.
+          # [ -z ... ] bedeutet in der Shell: ist die Variable leer?
+          if [ -z "$DOKPLOY_WEBHOOK_URL_DEV" ]; then
+
+            # Falls keine URL vorhanden ist, Hinweis ausgeben und Deployment überspringen.
+            echo "DOKPLOY_WEBHOOK_URL_DEV is not configured — skipping autodeploy trigger."
+
+          else
+            # Wenn die URL vorhanden ist, wird ein HTTP-POST an die Dokploy-Webhook-URL geschickt.
+            # Die Authentifizierung ist bereits in der URL eingebettet.
+            curl --fail \
+                 --silent \
+                 --show-error \
+                 --max-time 30 \
+                 --retry 3 \
+                 --retry-delay 5 \
+                 -X POST \
+                 "$DOKPLOY_WEBHOOK_URL_DEV"
+
+            # Erfolgsmeldung nach dem API-Aufruf.
+            echo "Dokploy DEV autodeploy triggered successfully."
+          fi
+
+        # Diese env-Variable gilt nur für diesen Schritt.
+        env:
+          # Secret aus GitHub: Dokploy-Webhook-URL für das DEV-Compose-Projekt.
+          # Zu finden in Dokploy unter: Compose-Projekt → General → Deploy Webhook
+          DOKPLOY_WEBHOOK_URL_DEV: ${{ secrets.DOKPLOY_WEBHOOK_URL_DEV }}

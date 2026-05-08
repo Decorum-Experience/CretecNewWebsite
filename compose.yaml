@@ -1,0 +1,7 @@
+services:
+  web:
+    image: ghcr.io/decorum-experience/cretecnewwebsite:latest
+    pull_policy: always
+    restart: unless-stopped
+    ports:
+      - "80"

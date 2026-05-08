@@ -13,6 +13,7 @@ export default defineConfig({
         main: 'index.html',
         impressum: 'impressum.html',
         datenschutz: 'datenschutz.html',
+        '404': '404.html',
       },
     },
   },
