@@ -98,7 +98,7 @@ document.querySelectorAll('[data-pic-carousel]').forEach((media) => {
   const start = () => {
     if (prefersReducedMotion) return;
     stop();
-    timer = setInterval(() => go(idx + 1), 4500);
+    timer = setInterval(() => go(idx + 1), 6000);
   };
   dots.forEach((d, n) => d.addEventListener('click', () => { go(n); start(); }));
   const card = media.closest('.ref-card');
