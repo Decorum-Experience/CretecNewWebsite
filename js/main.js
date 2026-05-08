@@ -76,6 +76,43 @@ document.querySelectorAll('.tabs').forEach((tabsEl) => {
   });
 });
 
+// References carousel — slide + dot navigation, keyboard, swipe
+document.querySelectorAll('[data-carousel]').forEach((carousel) => {
+  const slides = carousel.querySelectorAll('.reference-slide');
+  const dots = carousel.querySelectorAll('.references__dot');
+  const prevBtn = carousel.querySelector('[data-prev]');
+  const nextBtn = carousel.querySelector('[data-next]');
+  const nav = carousel.querySelector('.references__nav');
+  if (slides.length <= 1) {
+    if (nav) nav.classList.add('is-hidden');
+    return;
+  }
+  let index = 0;
+  const go = (i) => {
+    index = (i + slides.length) % slides.length;
+    slides.forEach((s, n) => s.classList.toggle('is-active', n === index));
+    dots.forEach((d, n) => {
+      d.classList.toggle('is-active', n === index);
+      d.setAttribute('aria-selected', n === index ? 'true' : 'false');
+    });
+  };
+  prevBtn && prevBtn.addEventListener('click', () => go(index - 1));
+  nextBtn && nextBtn.addEventListener('click', () => go(index + 1));
+  dots.forEach((d, n) => d.addEventListener('click', () => go(n)));
+  carousel.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(index - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1); }
+  });
+  let touchX = null;
+  carousel.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+  carousel.addEventListener('touchend', (e) => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) go(dx < 0 ? index + 1 : index - 1);
+    touchX = null;
+  });
+});
+
 // Contact form — no backend yet, just validate and show a confirmation
 const contactForm = document.querySelector('.contact__form');
 if (contactForm) {
