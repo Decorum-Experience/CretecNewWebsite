@@ -53,6 +53,9 @@ if (document.fonts && document.fonts.ready) {
 // Tab switching for the locations card
 document.querySelectorAll('.tabs').forEach((tabsEl) => {
   const tabs = tabsEl.querySelectorAll('.tab');
+  const section = tabsEl.closest('.map-section');
+  const lists = section ? section.querySelectorAll('.locations-list[data-region]') : [];
+  const regions = section ? section.querySelectorAll('.map-region[data-region]') : [];
   tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
       tabs.forEach((t) => {
@@ -61,6 +64,14 @@ document.querySelectorAll('.tabs').forEach((tabsEl) => {
       });
       tab.classList.add('is-active');
       tab.setAttribute('aria-selected', 'true');
+      const region = tab.dataset.region;
+      if (!region) return;
+      lists.forEach((list) => {
+        list.classList.toggle('is-active', list.dataset.region === region);
+      });
+      regions.forEach((r) => {
+        r.classList.toggle('is-active', r.dataset.region === region);
+      });
     });
   });
 });
