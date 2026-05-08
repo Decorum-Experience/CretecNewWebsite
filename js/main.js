@@ -34,8 +34,8 @@ function buildHeroPanelMask() {
     ctx.font = fontAt(fs);
   }
 
-  ctx.fillText(line1, W / 2, 400, maxW);
-  ctx.fillText(line2, W / 2, 620, maxW);
+  ctx.fillText(line1, W / 2, 280, maxW);
+  ctx.fillText(line2, W / 2, 500, maxW);
 
   ctx.globalCompositeOperation = 'source-over';
 

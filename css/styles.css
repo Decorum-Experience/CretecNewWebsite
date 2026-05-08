@@ -125,7 +125,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   /* Fallback mask used until the JS canvas mask is built (or if JS is off).
      The runtime canvas mask in js/main.js renders with the page's webfonts
      and overrides this variable. */
-  --hero-panel-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 1156' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='960' height='1156' fill='white'/%3E%3Ctext x='480' y='395' text-anchor='middle' font-family='Arial Black,Roboto,sans-serif' font-weight='900' font-size='200' fill='black'%3EMARITIME%3C/text%3E%3Ctext x='480' y='615' text-anchor='middle' font-family='Arial Black,Roboto,sans-serif' font-weight='900' font-size='200' fill='black'%3ETRUSTED%3C/text%3E%3C/svg%3E");
+  --hero-panel-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 1156' preserveAspectRatio='xMidYMid slice'%3E%3Crect width='960' height='1156' fill='white'/%3E%3Ctext x='480' y='275' text-anchor='middle' font-family='Arial Black,Roboto,sans-serif' font-weight='900' font-size='200' fill='black'%3EMARITIME%3C/text%3E%3Ctext x='480' y='495' text-anchor='middle' font-family='Arial Black,Roboto,sans-serif' font-weight='900' font-size='200' fill='black'%3ETRUSTED%3C/text%3E%3C/svg%3E");
   -webkit-mask: var(--hero-panel-mask) center / 100% 100% no-repeat;
   mask: var(--hero-panel-mask) center / 100% 100% no-repeat;
 }
@@ -255,9 +255,12 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 
 .hero__content {
   position: absolute;
-  right: 6%;
+  right: 0;
   bottom: clamp(180px, 14%, 240px);
-  width: clamp(320px, 38%, 720px);
+  width: clamp(420px, 50%, 960px);
+  padding-left: 50px;
+  padding-right: 50px;
+  box-sizing: border-box;
   z-index: 5;
 }
 .hero__title {
