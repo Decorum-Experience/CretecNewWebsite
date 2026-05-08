@@ -76,41 +76,73 @@ document.querySelectorAll('.tabs').forEach((tabsEl) => {
   });
 });
 
-// References carousel — slide + dot navigation, keyboard, swipe
-document.querySelectorAll('[data-carousel]').forEach((carousel) => {
-  const slides = carousel.querySelectorAll('.reference-slide');
-  const dots = carousel.querySelectorAll('.references__dot');
-  const prevBtn = carousel.querySelector('[data-prev]');
-  const nextBtn = carousel.querySelector('[data-next]');
-  const nav = carousel.querySelector('.references__nav');
-  if (slides.length <= 1) {
-    if (nav) nav.classList.add('is-hidden');
-    return;
-  }
-  let index = 0;
+// Per-card photo carousel — auto-rotate with cross-fade, pause on hover/focus
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('[data-pic-carousel]').forEach((media) => {
+  const imgs = media.querySelectorAll('.ref-card__bg');
+  const dots = media.querySelectorAll('.ref-card__pic-dot');
+  if (imgs.length <= 1) return;
+  let idx = 0;
+  let timer = null;
   const go = (i) => {
-    index = (i + slides.length) % slides.length;
-    slides.forEach((s, n) => s.classList.toggle('is-active', n === index));
+    idx = (i + imgs.length) % imgs.length;
+    imgs.forEach((img, n) => img.classList.toggle('is-active', n === idx));
     dots.forEach((d, n) => {
-      d.classList.toggle('is-active', n === index);
-      d.setAttribute('aria-selected', n === index ? 'true' : 'false');
+      d.classList.toggle('is-active', n === idx);
+      d.setAttribute('aria-selected', n === idx ? 'true' : 'false');
     });
   };
-  prevBtn && prevBtn.addEventListener('click', () => go(index - 1));
-  nextBtn && nextBtn.addEventListener('click', () => go(index + 1));
-  dots.forEach((d, n) => d.addEventListener('click', () => go(n)));
-  carousel.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') { e.preventDefault(); go(index - 1); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); go(index + 1); }
+  const stop = () => {
+    if (timer) { clearInterval(timer); timer = null; }
+  };
+  const start = () => {
+    if (prefersReducedMotion) return;
+    stop();
+    timer = setInterval(() => go(idx + 1), 4500);
+  };
+  dots.forEach((d, n) => d.addEventListener('click', () => { go(n); start(); }));
+  const card = media.closest('.ref-card');
+  if (card) {
+    card.addEventListener('mouseenter', stop);
+    card.addEventListener('mouseleave', start);
+    card.addEventListener('focusin', stop);
+    card.addEventListener('focusout', start);
+  }
+  start();
+});
+
+// References carousel — horizontal scroll-snap card grid
+document.querySelectorAll('[data-carousel]').forEach((carousel) => {
+  const track = carousel.querySelector('.references__track');
+  const cards = carousel.querySelectorAll('.ref-card');
+  const prevBtn = carousel.querySelector('[data-prev]');
+  const nextBtn = carousel.querySelector('[data-next]');
+  if (!track || cards.length === 0) return;
+
+  const step = () => {
+    const card = cards[0];
+    const rect = card.getBoundingClientRect();
+    const styles = getComputedStyle(track);
+    const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+    return rect.width + gap;
+  };
+
+  const updateArrows = () => {
+    if (!prevBtn || !nextBtn) return;
+    const max = track.scrollWidth - track.clientWidth - 1;
+    prevBtn.disabled = track.scrollLeft <= 1;
+    nextBtn.disabled = track.scrollLeft >= max;
+  };
+
+  prevBtn && prevBtn.addEventListener('click', () => {
+    track.scrollBy({ left: -step(), behavior: 'smooth' });
   });
-  let touchX = null;
-  carousel.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
-  carousel.addEventListener('touchend', (e) => {
-    if (touchX === null) return;
-    const dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 50) go(dx < 0 ? index + 1 : index - 1);
-    touchX = null;
+  nextBtn && nextBtn.addEventListener('click', () => {
+    track.scrollBy({ left: step(), behavior: 'smooth' });
   });
+  track.addEventListener('scroll', updateArrows, { passive: true });
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
 });
 
 // Contact form — no backend yet, just validate and show a confirmation
