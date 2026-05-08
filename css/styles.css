@@ -681,13 +681,12 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 }
 .didi__media {
   position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--green-dark), var(--dark-green));
-  box-shadow: 0 18px 60px rgba(0, 122, 133, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .didi__media img {
-  width: 100%;
+  max-width: 100%;
   height: auto;
   display: block;
 }
