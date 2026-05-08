@@ -410,10 +410,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 .ref-card {
   position: relative;
   flex: 0 0 calc((100% - 48px) / 3);
-  height: 480px;
-  display: flex;
-  flex-direction: column;
-  background: var(--white);
+  height: 436px;
   border-radius: var(--radius);
   overflow: hidden;
   scroll-snap-align: start;
@@ -421,8 +418,9 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   isolation: isolate;
 }
 .ref-card__media {
-  position: relative;
-  flex: 0 0 260px;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   overflow: hidden;
   background: #0c0c1a;
 }
@@ -433,24 +431,22 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   height: 100%;
   object-fit: cover;
   display: block;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+.ref-card__bg.is-active {
+  opacity: 1;
 }
 .ref-card__bg--placeholder {
   background:
     radial-gradient(circle at 30% 30%, rgba(0,177,190,.35), transparent 60%),
     linear-gradient(160deg, #1a3a44, #0c0c1a 70%);
 }
-.ref-card__media .ref-card__bg {
-  opacity: 0;
-  transition: opacity 700ms ease;
-}
-.ref-card__media .ref-card__bg.is-active {
-  opacity: 1;
-}
 .ref-card__pic-dots {
   position: absolute;
   top: 14px;
   left: 14px;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   gap: 5px;
 }
@@ -459,58 +455,78 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   height: 3px;
   border: 0;
   border-radius: 2px;
-  background: rgba(255,255,255,.55);
+  background: rgba(0,177,190,.45);
   cursor: pointer;
   padding: 0;
-  box-shadow: 0 1px 2px rgba(0,0,0,.35);
+  box-shadow: 0 1px 2px rgba(0,0,0,.25);
   transition: background .2s ease, transform .2s ease;
 }
 .ref-card__pic-dot.is-active {
-  background: var(--white);
+  background: var(--green);
 }
 .ref-card__pic-dot:hover,
 .ref-card__pic-dot:focus-visible {
-  background: var(--white);
+  background: rgba(0,177,190,.85);
   transform: scaleY(1.4);
 }
 .ref-card__badge {
   position: absolute;
   top: 12px;
   right: 12px;
-  z-index: 2;
+  z-index: 3;
   padding: 5px 14px;
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-size: 12px;
   letter-spacing: .02em;
   color: var(--white);
-  background: rgba(0,177,190,.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(0,177,190,.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(0,177,190,.35);
+  box-shadow: 0 4px 24px rgba(0,0,0,.25);
 }
 .ref-card__panel {
-  flex: 1;
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 2;
   padding: 20px 22px 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  background: var(--white);
+  display: grid;
+  grid-template-rows: auto auto 0fr;
+  row-gap: 8px;
+  background:
+    linear-gradient(rgba(0,177,190,.35), rgba(0,177,190,.35)),
+    linear-gradient(transparent, rgba(0,0,0,.4));
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: 0 -4px 30px rgba(0,0,0,.35);
+  transition: grid-template-rows 380ms cubic-bezier(.4,0,.2,1),
+              background 280ms ease;
 }
 .ref-card__panel--placeholder {
-  justify-content: center;
-  align-items: center;
+  background:
+    linear-gradient(rgba(0,177,190,.4), rgba(0,177,190,.4)),
+    linear-gradient(transparent, rgba(0,0,0,.4));
+  grid-template-rows: auto auto;
+  justify-items: center;
   text-align: center;
-  background: #f7f9f9;
+}
+.ref-card:hover .ref-card__panel,
+.ref-card:focus-within .ref-card__panel {
+  grid-template-rows: auto auto 1fr;
+  background:
+    linear-gradient(rgba(0,177,190,.45), rgba(0,177,190,.45)),
+    linear-gradient(transparent, rgba(0,0,0,.45));
 }
 .ref-card__title {
   font-family: 'Roboto', sans-serif;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1.3;
-  color: var(--dark-green);
+  color: var(--white);
   margin: 0;
+  text-shadow: 0 1px 2px rgba(0,0,0,.35);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -520,33 +536,45 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 .ref-card__meta {
   font-family: 'Inter', sans-serif;
   font-weight: 700;
-  font-size: 11px;
-  letter-spacing: .08em;
-  color: var(--green);
+  font-size: 12px;
+  letter-spacing: .04em;
+  color: #eaffff;
   margin: 0;
   text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0,0,0,.35);
 }
 .ref-card__desc {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   line-height: 1.5;
-  color: var(--d-grey);
+  color: var(--white);
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  line-clamp: 4;
-  -webkit-box-orient: vertical;
+  text-shadow: 0 1px 2px rgba(0,0,0,.3);
   overflow: hidden;
+  opacity: 0;
+  transition: opacity 220ms ease 80ms;
+}
+.ref-card:hover .ref-card__desc,
+.ref-card:focus-within .ref-card__desc {
+  opacity: 1;
 }
 .ref-card__hint {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  color: var(--d-grey);
+  color: var(--white);
   margin: 0;
   text-align: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,.3);
 }
-.ref-card--placeholder .ref-card__title {
-  color: var(--d-grey);
+
+/* Touch / no-hover devices: always show full panel */
+@media (hover: none) {
+  .ref-card__panel {
+    grid-template-rows: auto auto 1fr;
+  }
+  .ref-card__desc {
+    opacity: 1;
+  }
 }
 
 .references__arrow {
@@ -593,8 +621,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   .references__header h2 { font-size: 28px; line-height: 1.25; }
   .references__carousel { gap: 8px; }
   .references__track { gap: 16px; }
-  .ref-card { flex: 0 0 85%; height: 440px; }
-  .ref-card__media { flex: 0 0 220px; }
+  .ref-card { flex: 0 0 85%; height: 400px; }
   .references__arrow { width: 40px; height: 40px; }
 }
 
