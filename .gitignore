@@ -5,3 +5,8 @@ desktop.ini
 .idea/
 *.log
 node_modules/
+
+# Environment variables (contact API secrets)
+.env
+.env.*
+!.env.example

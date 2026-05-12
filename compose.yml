@@ -5,3 +5,12 @@ services:
     restart: unless-stopped
     ports:
       - "80"
+    depends_on:
+      - api
+
+  api:
+    image: ghcr.io/decorum-experience/cretec-api:dev
+    pull_policy: always
+    restart: unless-stopped
+    environment:
+      - RESEND_API_KEY=${RESEND_API_KEY}

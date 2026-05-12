@@ -1,0 +1,14 @@
+{
+  "name": "cretec-contact-api",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --env-file .env server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "resend": "^4.0.0"
+  }
+}

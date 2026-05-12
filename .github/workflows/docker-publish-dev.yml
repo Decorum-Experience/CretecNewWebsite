@@ -159,6 +159,27 @@ jobs:
           # linux/amd64 = Linux für 64-Bit-x86-Systeme, also Standard-Serverarchitektur.
           platforms: linux/amd64
 
+      # Zusatz-Schritt: Kontakt-API-Image bauen und hochladen.
+      - name: Extract metadata for API image
+        id: api-meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/cretec-api
+          tags: |
+            type=raw,value=dev
+            type=sha,prefix=dev-sha-,format=short
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./api
+          push: true
+          tags: ${{ steps.api-meta.outputs.tags }}
+          labels: ${{ steps.api-meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
       # Sechster Schritt: Nach erfolgreichem Build Dokploy informieren,
       # damit die DEV-Anwendung neu ausgerollt wird.
       - name: Trigger Dokploy DEV autodeploy

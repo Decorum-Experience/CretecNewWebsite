@@ -147,21 +147,71 @@ document.querySelectorAll('[data-carousel]').forEach((carousel) => {
   updateArrows();
 });
 
-// Contact form — no backend yet, just validate and show a confirmation
+// Contact form — POSTs JSON to /api/contact (Node/Resend backend).
 const contactForm = document.querySelector('.contact__form');
 if (contactForm) {
-  const status = contactForm.querySelector('.contact__status');
-  contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    status.classList.remove('is-error');
-    const t = window.i18n ? window.i18n.t : (de) => de;
-    if (!contactForm.checkValidity()) {
-      status.textContent = t('Bitte füllen Sie alle Felder aus.', 'Please fill in all fields.');
-      status.classList.add('is-error');
-      return;
+  const status   = contactForm.querySelector('.contact__status');
+  const submit   = contactForm.querySelector('[type="submit"]');
+  const nameEl    = contactForm.querySelector('#contact-name');
+  const emailEl   = contactForm.querySelector('#contact-email');
+  const messageEl = contactForm.querySelector('#contact-message');
+  const consentEl = contactForm.querySelector('#contact-consent');
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const t = (de, en) => (window.i18n ? window.i18n.t(de, en) : de);
+
+  function showStatus(msg, isError) {
+    status.textContent = msg;
+    status.classList.toggle('is-error', !!isError);
+  }
+
+  function validate() {
+    if (!nameEl.value.trim() || !emailEl.value.trim() || !messageEl.value.trim()) {
+      showStatus(t('Bitte füllen Sie alle Felder aus.', 'Please fill in all fields.'), true);
+      return false;
     }
-    status.textContent = t('Vielen Dank! Ihre Nachricht wurde erfasst.', 'Thank you! Your message has been received.');
-    contactForm.reset();
+    if (!EMAIL_RE.test(emailEl.value.trim())) {
+      showStatus(t('Bitte geben Sie eine gültige E-Mail-Adresse ein.', 'Please enter a valid email address.'), true);
+      return false;
+    }
+    if (consentEl && !consentEl.checked) {
+      showStatus(t('Bitte stimmen Sie der Datenschutzerklärung zu.', 'Please agree to the privacy policy.'), true);
+      return false;
+    }
+    return true;
+  }
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    showStatus('', false);
+    if (!validate()) return;
+
+    const originalLabel = submit.textContent;
+    submit.disabled = true;
+    submit.style.opacity = '0.8';
+    submit.textContent = t('Wird gesendet…', 'Sending…');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:    nameEl.value.trim(),
+          email:   emailEl.value.trim(),
+          message: messageEl.value.trim(),
+          consent: consentEl?.checked ? 'true' : 'false',
+        }),
+      });
+
+      if (!res.ok) throw new Error('server');
+      showStatus(t('Vielen Dank! Ihre Nachricht wurde gesendet.', 'Thank you! Your message has been sent.'), false);
+      contactForm.reset();
+    } catch {
+      showStatus(t('Fehler beim Senden. Bitte später erneut versuchen.', 'Sending failed. Please try again later.'), true);
+    } finally {
+      submit.disabled = false;
+      submit.style.opacity = '';
+      submit.textContent = originalLabel;
+    }
   });
 }
 
