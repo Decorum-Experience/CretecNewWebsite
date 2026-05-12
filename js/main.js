@@ -1,3 +1,5 @@
+import './i18n.js';
+
 // Hero panel cutout — build a canvas-based mask at runtime so the text uses
 // the page's fonts (SVG data-URI masks render outside the document font ctx
 // and would fall back to a generic sans-serif).
@@ -152,12 +154,13 @@ if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     status.classList.remove('is-error');
+    const t = window.i18n ? window.i18n.t : (de) => de;
     if (!contactForm.checkValidity()) {
-      status.textContent = 'Bitte füllen Sie alle Felder aus.';
+      status.textContent = t('Bitte füllen Sie alle Felder aus.', 'Please fill in all fields.');
       status.classList.add('is-error');
       return;
     }
-    status.textContent = 'Vielen Dank! Ihre Nachricht wurde erfasst.';
+    status.textContent = t('Vielen Dank! Ihre Nachricht wurde erfasst.', 'Thank you! Your message has been received.');
     contactForm.reset();
   });
 }

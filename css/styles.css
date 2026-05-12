@@ -221,6 +221,32 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 .topbar-contact a:hover { color: var(--green); }
 .topbar-contact em { color: var(--green); font-style: normal; font-weight: 600; margin-left: 2px; }
 
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.45);
+  background: transparent;
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.lang-toggle:hover { border-color: var(--green); background: rgba(0,177,190,.12); }
+.lang-toggle__sep { opacity: .5; font-weight: 400; }
+.lang-toggle__de,
+.lang-toggle__en { opacity: .55; transition: opacity .15s, color .15s; }
+.lang-toggle[data-current-lang="de"] .lang-toggle__de { opacity: 1; color: var(--green); }
+.lang-toggle[data-current-lang="en"] .lang-toggle__en { opacity: 1; color: var(--green); }
+
+.legal-topbar .lang-toggle { color: #0b2740; border-color: rgba(11,39,64,.25); }
+.legal-topbar .lang-toggle:hover { border-color: var(--green); background: rgba(0,177,190,.08); }
+
 .hero__gradient-bar {
   position: absolute;
   top: 96px;
