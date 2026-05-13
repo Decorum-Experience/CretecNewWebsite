@@ -14,3 +14,5 @@ services:
     restart: unless-stopped
     environment:
       - RESEND_API_KEY=${RESEND_API_KEY}
+      - CONTACT_FROM=${CONTACT_FROM:-CRETEC Kontaktformular <kontakt@mail.cretec-schiffstechnik.de>}
+      - CONTACT_EMAIL=${CONTACT_EMAIL:-service@cretec-schiffstechnik.de}
