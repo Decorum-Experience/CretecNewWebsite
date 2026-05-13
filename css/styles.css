@@ -3,13 +3,13 @@
    ============================================================ */
 
 :root {
-  /* Decorum teal palette — light mode
-     (var names kept for compatibility with existing rules) */
-  --green:       #00B1BE;  /* primary teal — accents, buttons, links */
-  --green-dark:  #007A85;  /* deep teal — gradient end */
-  --green-mid:   #009BA8;  /* mid teal — gradient middle */
+  /* RedCRETEC brand palette
+     (var names kept for compatibility with existing rules — "green" is now red) */
+  --green:       #FC0400;  /* primary red — accents, buttons, links */
+  --green-dark:  #A30200;  /* deep red — gradient end */
+  --green-mid:   #D40300;  /* mid red — gradient middle */
   --dark-green:  #0C0C1A;  /* deep navy — dark accent / overlays */
-  --light-green: #00B1BE;  /* primary teal — chip / icon bg (legacy var name) */
+  --light-green: #FC0400;  /* primary red — chip / icon bg (legacy var name) */
   --light-grey:  #F5F5F5;
   --d-grey:      #4D4D4D;
   --grey:        #717171;
@@ -17,7 +17,7 @@
   --white:       #ffffff;
   --max:         1440px;
   --radius:      8px;
-  --shadow-card: 0 4px 4px rgba(0,0,0,.25), 0 2px 10px rgba(0,177,190,.2);
+  --shadow-card: 0 4px 4px rgba(0,0,0,.25), 0 2px 10px rgba(252,4,0,.2);
 }
 
 * { box-sizing: border-box; }
@@ -85,23 +85,11 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   overflow: hidden;
   isolation: isolate;
 }
-.hero__video {
-  position: absolute; inset: 0; z-index: -4;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
 .hero__bg {
   position: absolute; inset: 0; z-index: -3;
-  background: linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35));
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero__video { display: none; }
-  .hero__bg {
-    background:
-      linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
-      url('../assets/ship-bridge-navigation-systems.webp') center/cover no-repeat;
-  }
+  background:
+    linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.35)),
+    url('../assets/hero-redcretec.png') center/cover no-repeat;
 }
 .hero__vignette {
   position: absolute; inset: 0; z-index: -2;
@@ -237,7 +225,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   cursor: pointer;
   transition: border-color .15s, background .15s;
 }
-.lang-toggle:hover { border-color: var(--green); background: rgba(0,177,190,.12); }
+.lang-toggle:hover { border-color: var(--green); background: rgba(252,4,0,.12); }
 .lang-toggle__sep { opacity: .5; font-weight: 400; }
 .lang-toggle__de,
 .lang-toggle__en { opacity: .55; transition: opacity .15s, color .15s; }
@@ -245,7 +233,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 .lang-toggle[data-current-lang="en"] .lang-toggle__en { opacity: 1; color: var(--green); }
 
 .legal-topbar .lang-toggle { color: #0b2740; border-color: rgba(11,39,64,.25); }
-.legal-topbar .lang-toggle:hover { border-color: var(--green); background: rgba(0,177,190,.08); }
+.legal-topbar .lang-toggle:hover { border-color: var(--green); background: rgba(252,4,0,.08); }
 
 .hero__gradient-bar {
   position: absolute;
@@ -294,6 +282,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-weight: 700;
   font-size: clamp(28px, 3vw, 44px);
   line-height: 1.1;
+  color: var(--green);
   margin: 0 0 16px;
 }
 .hero__subtitle {
@@ -370,7 +359,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-weight: 600;
   font-size: clamp(24px, 2.4vw, 36px);
   line-height: 1.2;
-  color: var(--d-grey);
+  color: var(--green);
   margin: 0 0 14px;
 }
 .foerderung__text p {
@@ -402,7 +391,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-weight: 600;
   font-size: 36px;
   line-height: 1.22;
-  color: #333;
+  color: var(--green);
   margin: 0 0 8px;
 }
 .references__header p {
@@ -468,7 +457,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 }
 .ref-card__bg--placeholder {
   background:
-    radial-gradient(circle at 30% 30%, rgba(0,177,190,.35), transparent 60%),
+    radial-gradient(circle at 30% 30%, rgba(252,4,0,.35), transparent 60%),
     linear-gradient(160deg, #1a3a44, #0c0c1a 70%);
 }
 .ref-card__pic-dots {
@@ -484,7 +473,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   height: 3px;
   border: 0;
   border-radius: 2px;
-  background: rgba(0,177,190,.45);
+  background: rgba(252,4,0,.45);
   cursor: pointer;
   padding: 0;
   box-shadow: 0 1px 2px rgba(0,0,0,.25);
@@ -495,7 +484,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 }
 .ref-card__pic-dot:hover,
 .ref-card__pic-dot:focus-visible {
-  background: rgba(0,177,190,.85);
+  background: rgba(252,4,0,.85);
   transform: scaleY(1.4);
 }
 .ref-card__badge {
@@ -509,7 +498,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-size: 12px;
   letter-spacing: .02em;
   color: var(--white);
-  background: rgba(0,177,190,.45);
+  background: rgba(252,4,0,.45);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 999px;
@@ -524,7 +513,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   grid-template-rows: auto auto 0fr;
   row-gap: 8px;
   background:
-    linear-gradient(rgba(0,177,190,.35), rgba(0,177,190,.35)),
+    linear-gradient(rgba(252,4,0,.35), rgba(252,4,0,.35)),
     linear-gradient(transparent, rgba(0,0,0,.4));
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
@@ -535,7 +524,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 }
 .ref-card__panel--placeholder {
   background:
-    linear-gradient(rgba(0,177,190,.4), rgba(0,177,190,.4)),
+    linear-gradient(rgba(252,4,0,.4), rgba(252,4,0,.4)),
     linear-gradient(transparent, rgba(0,0,0,.4));
   grid-template-rows: auto auto;
   justify-items: center;
@@ -545,7 +534,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 .ref-card:focus-within .ref-card__panel {
   grid-template-rows: auto auto 1fr;
   background:
-    linear-gradient(rgba(0,177,190,.45), rgba(0,177,190,.45)),
+    linear-gradient(rgba(252,4,0,.45), rgba(252,4,0,.45)),
     linear-gradient(transparent, rgba(0,0,0,.45));
 }
 .ref-card__title {
@@ -625,7 +614,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 .references__arrow--next {
   background: var(--green);
   color: var(--white);
-  box-shadow: 0 4px 14px rgba(0,177,190,.4);
+  box-shadow: 0 4px 14px rgba(252,4,0,.4);
 }
 .references__arrow:hover,
 .references__arrow:focus-visible {
@@ -878,7 +867,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-weight: 600;
   font-size: 36px;
   line-height: 1.22;
-  color: var(--dark);
+  color: var(--green);
   margin: 0 0 8px;
 }
 .partners__header p {
@@ -908,7 +897,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
 }
 .partner-logo:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,177,190,.18);
+  box-shadow: 0 6px 18px rgba(252,4,0,.18);
 }
 .partner-logo img {
   max-width: 100%;
@@ -963,7 +952,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-size: 40px;
   line-height: 1.15;
   margin: 0 0 16px;
-  color: var(--white);
+  color: var(--green);
 }
 .info-cards__header p {
   font-size: 17px;
@@ -1002,7 +991,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-weight: 700;
   font-size: 24px;
   line-height: 1.25;
-  color: var(--d-grey);
+  color: var(--green);
   margin: 0;
 }
 .info-card p {
@@ -1054,7 +1043,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--green);
-  background: rgba(0, 177, 190, 0.1);
+  background: rgba(252, 4, 0, 0.1);
   padding: 6px 14px;
   border-radius: 999px;
   margin-bottom: 18px;
@@ -1064,7 +1053,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-weight: 700;
   font-size: clamp(28px, 2.6vw, 40px);
   line-height: 1.18;
-  color: var(--dark);
+  color: var(--green);
   margin: 0 0 18px;
 }
 .didi__lede {
@@ -1310,7 +1299,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   border-radius: 50%;
   object-fit: cover;
   margin: 0 auto 20px;
-  box-shadow: 0 4px 18px rgba(0,177,190,.18);
+  box-shadow: 0 4px 18px rgba(252,4,0,.18);
 }
 .contact__name {
   font-family: 'Inter', sans-serif;
@@ -1358,7 +1347,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-weight: 600;
   font-size: 36px;
   line-height: 1.22;
-  color: var(--dark);
+  color: var(--green);
   margin: 0 0 8px;
 }
 .contact__header p {
@@ -1468,7 +1457,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-weight: 700;
   font-size: clamp(28px, 3vw, 40px);
   line-height: 1.2;
-  color: var(--dark);
+  color: var(--green);
   margin: 48px 0 24px;
 }
 .legal h1:first-child { margin-top: 0; }
@@ -1484,7 +1473,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-weight: 600;
   font-size: 20px;
   line-height: 1.3;
-  color: var(--dark);
+  color: var(--green);
   margin: 0 0 12px;
 }
 .legal__block h3 {
@@ -1492,7 +1481,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: transpare
   font-weight: 600;
   font-size: 16px;
   line-height: 1.35;
-  color: var(--dark);
+  color: var(--green);
   margin: 18px 0 8px;
 }
 .legal__block p,
