@@ -13,6 +13,7 @@ services:
     pull_policy: always
     restart: unless-stopped
     environment:
+      - PORT=3001
       - RESEND_API_KEY=${RESEND_API_KEY}
       - CONTACT_FROM=${CONTACT_FROM:-CRETEC Kontaktformular <kontakt@mail.cretec-schiffstechnik.de>}
       - CONTACT_EMAIL=${CONTACT_EMAIL:-service@cretec-schiffstechnik.de}

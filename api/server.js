@@ -10,6 +10,10 @@ if (!process.env.RESEND_API_KEY) {
 
 const app    = express();
 const port   = process.env.PORT ?? 3001;
+
+// Trust one proxy hop (Vite dev proxy locally, nginx in production).
+// Required for express-rate-limit to use the real client IP from X-Forwarded-For.
+app.set('trust proxy', 1);
 const resend = new Resend(process.env.RESEND_API_KEY);
 const TO     = process.env.CONTACT_EMAIL ?? 'aline.schaeller@decorum-experience.com';
 // NOTE: must be a Resend-verified sender on a domain you control.
