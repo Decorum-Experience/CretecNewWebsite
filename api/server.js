@@ -17,7 +17,7 @@ app.set('trust proxy', 1);
 const resend = new Resend(process.env.RESEND_API_KEY);
 const TO     = process.env.CONTACT_EMAIL ?? 'aline.schaeller@decorum-experience.com';
 // NOTE: must be a Resend-verified sender on a domain you control.
-const FROM   = process.env.CONTACT_FROM   ?? 'CRETEC Kontaktformular <kontakt@mail.cretec-schiffstechnik.de>';
+const FROM   = process.env.CONTACT_FROM   ?? 'CRETEC Kontaktformular TEST <kontakt@mail.cretec-schiffstechnik.de>';
 
 // ── Startup config log (no secrets) ───────────────────────────
 console.log('[boot] Cretec Contact API starting…');
